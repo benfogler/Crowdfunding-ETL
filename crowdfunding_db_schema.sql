@@ -1,14 +1,14 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
 CREATE TABLE "campaign" (
     "cf_id" int   NOT NULL,
-    "contact_id" int   NOT NULL,
+    "contact_id" int   NOT NULL UNIQUE,
     "company_name" varchar(100)   NOT NULL,
     "description" text   NOT NULL,
-    "goal" numeric(10,2)   NOT NULL,
-    "pledged" numberic(10,2)   NOT NULL,
+    "goal" numeric   NOT NULL,
+    "pledged" numeric(10,2)   NOT NULL,
     "outcome" varchar(50)   NOT NULL,
     "backers_count" int   NOT NULL,
     "country" varchar(10)   NOT NULL,
@@ -57,3 +57,19 @@ REFERENCES "subcategory" ("subcategory_id");
 ALTER TABLE "contacts" ADD CONSTRAINT "fk_contacts_contact_id" FOREIGN KEY("contact_id")
 REFERENCES "campaign" ("contact_id");
 
+CREATE TABLE "backers" (
+    "backer_id" varchar(10)   NOT NULL,
+    "cf_id" int   NOT NULL,
+    "first_name" varchar(50)   NOT NULL,
+    "last_name" varchar(50)   NOT NULL,
+    "email" varchar(100)   NOT NULL,
+    CONSTRAINT "pk_backers" PRIMARY KEY (
+        backer_id
+     )
+);
+
+
+ALTER TABLE "backers" ADD CONSTRAINT "fk_backers_cf_id" FOREIGN KEY(cf_id)
+REFERENCES "campaign" (cf_id);
+
+select * from subcategory;
